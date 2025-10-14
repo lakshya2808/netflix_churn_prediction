@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result - Netflix Churn Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Prediction Results</h1>
+        </header>
+
+        {% if result %}
+        <div class="result-container">
+            <!-- Prediction Card -->
+            <div class="prediction-card {{ 'churn' if result.churn == 1 else 'stay' }}">
+                <div class="prediction-icon">
+                    {{ '⚠️' if result.churn == 1 else '✅' }}
+                </div>
+                <h2>{{ result.churn_status }}</h2>
+                <p class="risk-level">{{ result.risk_level }}</p>
+            </div>
+
+            <!-- Probability Bars -->
+            <div class="probability-section">
+                <h3>📈 Probability Analysis</h3>
+                
+                <div class="probability-bar">
+                    <div class="bar-label">
+                        <span>Churn Probability</span>
+                        <span><strong>{{ "%.2f"|format(result.churn_probability) }}%</strong></span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar bar-churn" style="width: {{ result.churn_probability }}%"></div>
+                    </div>
+                </div>
+
+                <div class="probability-bar">
+                    <div class="bar-label">
+                        <span>Retention Probability</span>
+                        <span><strong>{{ "%.2f"|format(result.stay_probability) }}%</strong></span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar bar-stay" style="width: {{ result.stay_probability }}%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Profile -->
+            <div class="input-summary">
+                <h3>👤 Customer Profile</h3>
+                <div class="summary-grid">
+                    {% for key, value in result.customer_data.items() %}
+                    <div class="summary-item">
+                        <span class="label">{{ key }}:</span>
+                        <span class="value">{{ value }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Recommendations -->
+            {% if result.recommendations %}
+            <div class="recommendations">
+                <h3>💡 Retention Recommendations</h3>
+                <ul>
+                    {% for recommendation in result.recommendations %}
+                    <li>{{ recommendation }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="{{ url_for('home') }}" class="btn-secondary">🔄 New Prediction</a>
+                <a href="{{ url_for('about') }}" class="btn-secondary">ℹ️ About</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="error-message">
+            <strong>⚠️ Error:</strong> No prediction results available.
+        </div>
+        {% endif %}
+
+        <footer>
+            <p>Powered by XGBoost | Accuracy: {{ "%.2f"|format((model_info.accuracy if model_info else 0) * 100) }}%</p>
+            <p>© 2025 Netflix Churn Prediction System | <a href="{{ url_for('home') }}">Home</a></p>
+            <p><strong>Copyright © 2025 Lakshya Khatri. All Rights Reserved.</strong></p>
+        </footer>
+    </div>
+</body>
+</html>

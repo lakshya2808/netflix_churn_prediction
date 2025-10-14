@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Netflix Churn Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ℹ️ About This System</h1>
+        </header>
+
+        <div class="about-content">
+            <section class="about-section">
+                <h2>📖 Project Overview</h2>
+                <p>The Netflix Churn Prediction System is an advanced machine learning application designed to predict customer churn probability using sophisticated AI models and comprehensive customer data analysis.</p>
+            </section>
+
+            <section class="about-section">
+                <h2>🤖 Model Information</h2>
+                <div class="model-stats">
+                    <div class="stat-card">
+                        <h3>Model Type</h3>
+                        <p>{{ model_info.model_name if model_info and model_info.model_name else 'XGBoost Classifier' }}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Accuracy</h3>
+                        <p>{{ "%.2f"|format((model_info.accuracy if model_info and model_info.accuracy else 0) * 100) }}%</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Features</h3>
+                        <p>{{ model_info.n_features if model_info and model_info.n_features else 'N/A' }}+</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Training Samples</h3>
+                        <p>{{ "{:,}".format(model_info.n_samples) if model_info and model_info.n_samples else 'N/A' }}</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section">
+                <h2>📊 Key Features Analyzed</h2>
+                <ul class="feature-list">
+                    <li>📺 Subscription type and revenue patterns</li>
+                    <li>⏱️ Account age and activity history</li>
+                    <li>🎬 Content consumption and engagement metrics</li>
+                    <li>📱 Multi-device and profile usage</li>
+                    <li>🎯 Genre diversity and viewing preferences</li>
+                    <li>💳 Payment history and issues</li>
+                    <li>🆘 Customer support interactions</li>
+                    <li>📥 Download behavior patterns</li>
+                </ul>
+            </section>
+
+            <section class="about-section">
+                <h2>🎯 Use Cases</h2>
+                <ul class="feature-list">
+                    <li>Identify at-risk customers for proactive retention</li>
+                    <li>Personalize customer engagement strategies</li>
+                    <li>Optimize subscription plans and pricing</li>
+                    <li>Improve customer support targeting</li>
+                    <li>Data-driven decision making for marketing campaigns</li>
+                </ul>
+            </section>
+
+            <div class="action-buttons">
+                <a href="{{ url_for('home') }}" class="btn-secondary">🏠 Back to Home</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>Powered by XGBoost | Accuracy: {{ "%.2f"|format((model_info.accuracy if model_info else 0) * 100) }}%</p>
+            <p>© 2025 Netflix Churn Prediction System</p>
+            <p><strong>Copyright © 2025 Lakshya Khatri. All Rights Reserved.</strong></p>
+        </footer>
+    </div>
+</body>
+</html>

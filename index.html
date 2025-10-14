@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Churn Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📺 Netflix Churn Prediction System</h1>
+            <p class="subtitle">Predict customer churn probability with machine learning</p>
+            
+            {% if model_info %}
+            <div class="model-info">
+                <span>🤖 Model: {{ model_info.model_name }}</span>
+                <span>✅ Accuracy: {{ "%.2f"|format(model_info.accuracy * 100) }}%</span>
+                <span>📊 Features: {{ model_info.n_features }}+</span>
+            </div>
+            {% endif %}
+        </header>
+
+        {% if error %}
+        <div class="error-message">
+            <strong>⚠️ Error:</strong> {{ error }}
+        </div>
+        {% endif %}
+
+        <form action="{{ url_for('predict') }}" method="POST" class="prediction-form">
+            <div class="form-grid">
+                <!-- Account Information -->
+                <div class="form-section">
+                    <h2>👤 Account Information</h2>
+                    
+                    <div class="form-group">
+                        <label for="subscription_type">Subscription Type:</label>
+                        <select id="subscription_type" name="subscription_type" required>
+                            <option value="">--Select Plan--</option>
+                            <option value="1" {% if form_data and form_data.subscription_type == '1' %}selected{% endif %}>Basic ($9.99)</option>
+                            <option value="2" {% if form_data and form_data.subscription_type == '2' %}selected{% endif %}>Standard ($15.49)</option>
+                            <option value="3" {% if form_data and form_data.subscription_type == '3' %}selected{% endif %}>Premium ($19.99)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="account_age">Account Age (months):</label>
+                        <input type="number" id="account_age" name="account_age" 
+                               min="1" max="120" 
+                               value="{{ form_data.account_age if form_data else '12' }}" 
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content_watched">Content Watched (hours):</label>
+                        <input type="number" id="content_watched" name="content_watched" 
+                               min="0" max="1000" step="0.1" 
+                               value="{{ form_data.content_watched if form_data else '50' }}" 
+                               required>
+                    </div>
+                </div>
+
+                <!-- Usage Patterns -->
+                <div class="form-section">
+                    <h2>📱 Usage Patterns</h2>
+                    
+                    <div class="form-group">
+                        <label for="devices_used">Devices Used:</label>
+                        <select id="devices_used" name="devices_used" required>
+                            <option value="">--Select--</option>
+                            <option value="1" {% if form_data and form_data.devices_used == '1' %}selected{% endif %}>1 Device</option>
+                            <option value="2" {% if form_data and form_data.devices_used == '2' %}selected{% endif %}>2 Devices</option>
+                            <option value="3" {% if form_data and form_data.devices_used == '3' %}selected{% endif %}>3 Devices</option>
+                            <option value="4" {% if form_data and form_data.devices_used == '4' %}selected{% endif %}>4 Devices</option>
+                            <option value="5" {% if form_data and form_data.devices_used == '5' %}selected{% endif %}>5+ Devices</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profiles">Profiles Created:</label>
+                        <select id="profiles" name="profiles" required>
+                            <option value="">--Select--</option>
+                            <option value="1" {% if form_data and form_data.profiles == '1' %}selected{% endif %}>1 Profile</option>
+                            <option value="2" {% if form_data and form_data.profiles == '2' %}selected{% endif %}>2 Profiles</option>
+                            <option value="3" {% if form_data and form_data.profiles == '3' %}selected{% endif %}>3 Profiles</option>
+                            <option value="4" {% if form_data and form_data.profiles == '4' %}selected{% endif %}>4 Profiles</option>
+                            <option value="5" {% if form_data and form_data.profiles == '5' %}selected{% endif %}>5 Profiles</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="days_since_login">Days Since Last Login:</label>
+                        <input type="number" id="days_since_login" name="days_since_login" 
+                               min="0" max="365" 
+                               value="{{ form_data.days_since_login if form_data else '3' }}" 
+                               required>
+                    </div>
+                </div>
+
+                <!-- Engagement Metrics -->
+                <div class="form-section">
+                    <h2>🎯 Engagement Metrics</h2>
+                    
+                    <div class="form-group">
+                        <label for="genre_diversity">Genre Diversity (1-15):</label>
+                        <input type="number" id="genre_diversity" name="genre_diversity" 
+                               min="1" max="15" 
+                               value="{{ form_data.genre_diversity if form_data else '8' }}" 
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="download_count">Download Count:</label>
+                        <input type="number" id="download_count" name="download_count" 
+                               min="0" max="100" 
+                               value="{{ form_data.download_count if form_data else '5' }}" 
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="peak_viewing">Peak Viewing Time:</label>
+                        <select id="peak_viewing" name="peak_viewing" required>
+                            <option value="">--Select Time--</option>
+                            <option value="1" {% if form_data and form_data.peak_viewing == '1' %}selected{% endif %}>Morning (6AM-12PM)</option>
+                            <option value="2" {% if form_data and form_data.peak_viewing == '2' %}selected{% endif %}>Afternoon (12PM-6PM)</option>
+                            <option value="3" {% if form_data and form_data.peak_viewing == '3' %}selected{% endif %}>Evening (6PM-12AM)</option>
+                            <option value="4" {% if form_data and form_data.peak_viewing == '4' %}selected{% endif %}>Night (12AM-6AM)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Support & Issues -->
+                <div class="form-section">
+                    <h2>🔧 Support & Issues</h2>
+                    
+                    <div class="form-group">
+                        <label for="support_tickets">Support Tickets:</label>
+                        <input type="number" id="support_tickets" name="support_tickets" 
+                               min="0" max="50" 
+                               value="{{ form_data.support_tickets if form_data else '0' }}" 
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="payment_issues">Payment Issues:</label>
+                        <input type="number" id="payment_issues" name="payment_issues" 
+                               min="0" max="20" 
+                               value="{{ form_data.payment_issues if form_data else '0' }}" 
+                               required>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-predict">🔮 Predict Churn Probability</button>
+        </form>
+
+        <footer>
+            <p>Powered by XGBoost | Accuracy: {{ "%.2f"|format((model_info.accuracy if model_info else 0) * 100) }}%</p>
+            <p>© 2025 Netflix Churn Prediction System | <a href="{{ url_for('about') }}">About</a></p>
+            <p><strong>Copyright © 2025 Lakshya Khatri. All Rights Reserved.</strong></p>
+        </footer>
+    </div>
+</body>
+</html>
