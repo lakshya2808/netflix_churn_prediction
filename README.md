@@ -1,223 +1,237 @@
-# codealpha_tasks
+# 📺 Netflix Customer Churn Prediction System
 
-🎯 Overview
-The Netflix Customer Churn Prediction System is a full-stack machine learning application designed to predict whether a customer will churn or stay based on their subscription behavior, engagement patterns, and account activity. The system analyzes 20+ engineered features to provide accurate predictions and personalized retention recommendations.
+![Python](https://img.shields.io/badge/Python-3.9-blue)
+![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black)
+![Machine Learning](https://img.shields.io/badge/Machine%20Learning-XGBoost-green)
+![Status](https://img.shields.io/badge/Project-Active-success)
 
-Key Highlights:
-✅ 96.40% Prediction Accuracy
+A **Machine Learning powered web application** that predicts whether a Netflix customer is likely to **churn (cancel subscription)** based on their usage behavior, engagement metrics, and account activity.
 
-✅ 0.9521 ROC-AUC Score
+This system helps businesses **identify customers at risk of leaving and take proactive retention actions** using data-driven insights.
 
-✅ 20+ Engineered Features
+---
 
-✅ 5,000+ Training Records
+# 🎯 Model Accuracy
 
-✅ Modern Responsive UI
+**96.40% accuracy using XGBoost with 20+ engineered features**
 
-✅ Real-time Predictions
+The model analyzes user behavior including:
 
-✨ Features
-🤖 Machine Learning
-High-Performance Model: XGBoost classifier with optimized hyperparameters
+* Subscription type
+* Account age
+* Content watched hours
+* Devices used
+* Profiles created
+* Payment issues
+* Support tickets
+* Login activity
+* Genre diversity
+* Download behavior
 
-Advanced Feature Engineering: 20+ derived features including engagement scores, payment reliability, and activity patterns
+---
 
-Comprehensive Analysis: Subscription behavior, content consumption, device usage, and support interactions
+# 🚀 Project Overview
 
-Risk Classification: Automatic categorization into Low, Medium, and High risk levels
+Customer churn prediction is a crucial problem for subscription-based platforms.
 
-🌐 Web Application
-Interactive Form: User-friendly input interface with validation
+This project builds a **machine learning model and a Flask web application** that predicts the probability of churn and helps businesses improve customer retention strategies.
 
-Real-time Predictions: Instant churn probability calculation
+The system provides:
 
-Probability Visualization: Animated progress bars showing churn vs. retention likelihood
+✔ Churn probability prediction
+✔ Risk classification (Low / Medium / High)
+✔ Retention recommendations
+✔ Visual probability analysis
 
-Retention Recommendations: Personalized strategies based on customer behavior
+---
 
-Responsive Design: Mobile-friendly interface with modern UI/UX
+# 📸 Application Screenshots
 
-🎨 UI/UX Design
-Soothing Color Palette: Light, calming gradient backgrounds
+### Input Page
 
-Gradient Animations: Modern animated predict button with shimmer effects
+![Input Page](screenshots/input.png)
 
-Smooth Transitions: Professional animations throughout the application
+### Prediction Result
 
-Accessibility: Focus states, proper contrast, and intuitive navigation
+![Prediction Result](screenshots/result.png)
 
-🎬 Demo
-Prediction Flow
-Enter customer details (subscription type, usage patterns, engagement metrics)
+---
 
-Click the animated predict button
+# 🧠 Machine Learning Pipeline
 
-View real-time churn probability with visual indicators
+```
+Data Collection
+      ↓
+Data Preprocessing
+      ↓
+Feature Engineering
+      ↓
+Model Training
+      ↓
+Hyperparameter Optimization
+      ↓
+Model Evaluation
+      ↓
+Flask Web Deployment
+```
 
-Receive personalized retention recommendations
+Models used:
 
-🛠️ Tech Stack
-Backend
-Python 3.8+
+* XGBoost
+* Gradient Boosting
+* Random Forest
+* Logistic Regression
 
-Flask 2.0+ - Web framework
+The best-performing model is automatically selected.
 
-XGBoost - Machine learning model
+---
 
-Scikit-Learn - ML utilities and preprocessing
+# 🏗️ Project Structure
 
-Pandas & NumPy - Data manipulation
-
-Frontend
-HTML5 - Structure
-
-CSS3 - Styling with gradient animations
-
-Machine Learning
-XGBoost Classifier (200 estimators, 0.1 learning rate)
-
-StandardScaler - Feature normalization
-
-Feature Engineering - 20+ derived metrics
-
-📦 Installation
-Prerequisites
-Python 3.8 or higher
-
-🚀 Usage
-Making Predictions
-Enter Account Information
-
-Subscription Type (Basic/Standard/Premium)
-
-Account Age (months)
-
-Content Watched (hours)
-
-Provide Usage Patterns
-
-Devices Used (1-5+)
-
-Profiles Created (1-5)
-
-Days Since Last Login
-
-Share Engagement Metrics
-
-Genre Diversity (1-15)
-
-Download Count
-
-Peak Viewing Time
-
-Include Support Data
-
-Support Tickets
-
-Payment Issues
-
-Click Predict and view results with:
-
-Churn probability percentage
-
-Retention probability
-
-Risk level classification
-
-Personalized recommendations
-
-📊 Model Performance
-Metrics
-Metric	Score
-Accuracy	96.40%
-ROC-AUC	0.9521
-Precision	95.8%
-Recall	94.2%
-F1-Score	95.0%
-Feature Importance
-Top features contributing to predictions:
-
-Account Health Score
-
-Engagement Score
-
-Payment Reliability
-
-Activity Score
-
-Days Since Last Login
-
-Content Watch Hours per Month
-
-Device Usage Patterns
-
-Support Ticket Rate
-
-Training Details
-Dataset Size: 5,000 customer records
-
-Features: 20+ engineered features
-
-Model: XGBoost (200 estimators)
-
-Training Time: ~5 minutes
-
-Cross-Validation: 5-fold CV
-
-📁 Project Structure
-text
-netflix-churn-prediction/
+```
+netflix_churn_prediction
 │
-├── app.py                      # Flask application
-├── train_model.py              # Model training script
-├── requirements.txt            # Python dependencies
-├── README.md                   # Project documentation
+├── app.py
+├── train_model.py
 │
-├── models/                     # Saved models
+├── templates
+│   ├── index.html
+│   ├── result.html
+│   └── about.html
+│
+├── static
+│   └── style.css
+│
+├── models
 │   ├── netflix_churn_model.pkl
 │   ├── netflix_scaler.pkl
 │   ├── feature_columns.pkl
 │   └── model_info.pkl
 │
-├── data/                       # Dataset
-│   └── netflix_customer_churn.csv
+├── screenshots
+│   ├── input.png
+│   └── result.png
 │
-├── templates/                  # HTML templates
-│   ├── index.html             # Home page
-│   ├── result.html            # Results page
-│   └── about.html             # About page
-│
-└── static/                     # Static files
-    └── style.css              # Stylesheet
+└── data
+    └── netflix_customer_churn.csv
+```
 
-Application Settings
-Edit app.py to modify:
+---
 
-👨‍💻 Author
-Lakshya Khatri
+# ⚙️ Installation
 
-🙏 Acknowledgments
-Dataset inspired by Netflix customer behavior patterns
+## Clone Repository
 
-XGBoost library for high-performance ML
+```
+git clone https://github.com/lakshya2808/netflix_churn_prediction.git
+cd netflix_churn_prediction
+```
 
-Flask framework for seamless web deployment
+---
 
-UI design inspired by modern web trends
+## Install Dependencies
 
-📈 Future Enhancements
- Add more ML models (Random Forest, Neural Networks)
+```
+pip install flask pandas numpy scikit-learn xgboost
+```
 
- Implement A/B testing for retention strategies
+---
 
- Add user authentication and dashboard
+## Train Model (Optional)
 
- Deploy to cloud platform (AWS/Heroku)
+```
+python train_model.py
+```
 
- Integrate real-time data streaming
+---
 
- Add multi-language support
+## Run Application
 
- Create mobile application
+```
+python app.py
+```
 
-Made with ❤️ by Lakshya Khatri
+---
+
+## Open in Browser
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+# 📊 Features Used
+
+| Feature           | Description                   |
+| ----------------- | ----------------------------- |
+| Subscription Type | Basic / Standard / Premium    |
+| Account Age       | Months since subscription     |
+| Content Watched   | Viewing hours                 |
+| Devices Used      | Number of devices             |
+| Profiles Created  | Number of profiles            |
+| Support Tickets   | Customer support interactions |
+| Payment Issues    | Payment failures              |
+| Days Since Login  | User activity                 |
+| Genre Diversity   | Variety of content            |
+| Download Count    | Offline downloads             |
+
+---
+
+# 🧰 Tech Stack
+
+### Backend
+
+* Python
+* Flask
+
+### Machine Learning
+
+* Scikit-Learn
+* XGBoost
+* Pandas
+* NumPy
+
+### Frontend
+
+* HTML
+* CSS
+* Jinja2
+
+---
+
+# 💡 Use Cases
+
+✔ Customer retention strategy
+✔ Subscription analytics
+✔ SaaS churn prediction
+✔ Marketing campaign optimization
+✔ Predictive customer behavior
+
+---
+
+# 👨‍💻 Author
+
+**Lakshya Khatri**
+
+B.Tech Information Technology
+JECRC College, Jaipur
+
+GitHub: https://github.com/lakshya2808
+LinkedIn: https://linkedin.com/in/lakshya2808
+
+---
+
+# ⭐ Support
+
+If you like this project:
+
+⭐ Star the repository
+🍴 Fork the project
+🚀 Contribute improvements
+
+---
+
+# 📜 License
+
+This project is licensed under the **MIT License**.
